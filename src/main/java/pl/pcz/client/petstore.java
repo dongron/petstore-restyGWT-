@@ -1,147 +1,97 @@
 package pl.pcz.client;
 
-import pl.pcz.shared.FieldVerifier;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
-public class petstore implements EntryPoint {
-  /**
-   * The message displayed to the user when the server cannot be reached or
-   * returns an error.
-   */
-  private static final String SERVER_ERROR = "An error occurred while "
-      + "attempting to contact the server. Please check your network "
-      + "connection and try again.";
+public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 
-  /**
-   * Create a remote service proxy to talk to the server-side Greeting service.
-   */
-  private final GreetingServiceAsync greetingService = GWT.create(GreetingService.class);
+    private Label header = new Label();
+    private FlexTable table = new FlexTable();
+    private Label id = new Label("123");
+    private Label name = new Label("Spot");
+    private Label category = new Label("reserved");
+    private int i = 0;
 
-  /**
-   * This is the entry point method.
-   */
-  public void onModuleLoad() {
-    final Button sendButton = new Button("Send");
-    final TextBox nameField = new TextBox();
-    nameField.setText("GWT User");
-    final Label errorLabel = new Label();
-
-    // We can add style names to widgets
-    sendButton.addStyleName("sendButton");
-
-    // Add the nameField and sendButton to the RootPanel
-    // Use RootPanel.get() to get the entire body element
-    RootPanel.get("nameFieldContainer").add(nameField);
-    RootPanel.get("sendButtonContainer").add(sendButton);
-    RootPanel.get("errorLabelContainer").add(errorLabel);
-
-    // Focus the cursor on the name field when the app loads
-    nameField.setFocus(true);
-    nameField.selectAll();
-
-    // Create the popup dialog box
-    final DialogBox dialogBox = new DialogBox();
-    dialogBox.setText("Remote Procedure Call");
-    dialogBox.setAnimationEnabled(true);
-    final Button closeButton = new Button("Close");
-    // We can set the id of a widget by accessing its Element
-    closeButton.getElement().setId("closeButton");
-    final Label textToServerLabel = new Label();
-    final HTML serverResponseLabel = new HTML();
-    VerticalPanel dialogVPanel = new VerticalPanel();
-    dialogVPanel.addStyleName("dialogVPanel");
-    dialogVPanel.add(new HTML("<b>Sending name to the server:</b>"));
-    dialogVPanel.add(textToServerLabel);
-    dialogVPanel.add(new HTML("<br><b>Server replies:</b>"));
-    dialogVPanel.add(serverResponseLabel);
-    dialogVPanel.setHorizontalAlignment(VerticalPanel.ALIGN_RIGHT);
-    dialogVPanel.add(closeButton);
-    dialogBox.setWidget(dialogVPanel);
-
-    // Add a handler to close the DialogBox
-    closeButton.addClickHandler(new ClickHandler() {
-      public void onClick(ClickEvent event) {
-        dialogBox.hide();
-        sendButton.setEnabled(true);
-        sendButton.setFocus(true);
-      }
-    });
-
-    // Create a handler for the sendButton and nameField
-    class MyHandler implements ClickHandler, KeyUpHandler {
-      /**
-       * Fired when the user clicks on the sendButton.
-       */
-      public void onClick(ClickEvent event) {
-        sendNameToServer();
-      }
-
-      /**
-       * Fired when the user types in the nameField.
-       */
-      public void onKeyUp(KeyUpEvent event) {
-        if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-          sendNameToServer();
-        }
-      }
-
-      /**
-       * Send the name from the nameField to the server and wait for a response.
-       */
-      private void sendNameToServer() {
-        // First, we validate the input.
-        errorLabel.setText("");
-        String textToServer = nameField.getText();
-        if (!FieldVerifier.isValidName(textToServer)) {
-          errorLabel.setText("Please enter at least four characters");
-          return;
-        }
-        
-        // Then, we send the input to the server.
-        sendButton.setEnabled(false);
-        textToServerLabel.setText(textToServer);
-        serverResponseLabel.setText("");
-        greetingService.greetServer(textToServer, new AsyncCallback<String>() {
-          public void onFailure(Throwable caught) {
-            // Show the RPC error message to the user
-            dialogBox.setText("Remote Procedure Call - Failure");
-            serverResponseLabel.addStyleName("serverResponseLabelError");
-            serverResponseLabel.setHTML(SERVER_ERROR);
-            dialogBox.center();
-            closeButton.setFocus(true);
-          }
-
-          public void onSuccess(String result) {
-            dialogBox.setText("Remote Procedure Call");
-            serverResponseLabel.removeStyleName("serverResponseLabelError");
-            serverResponseLabel.setHTML(result);
-            dialogBox.center();
-            closeButton.setFocus(true);
-          }
-        });
-      }
+    public boolean execute() {
+	header.setText("Petstore: " + i);
+	++i;
+	return true;
     }
+    
+    private void addPet(final String id, final String name, final String category) {
 
-    // Add a handler to send the name to the server
-    MyHandler handler = new MyHandler();
-    sendButton.addClickHandler(handler);
-    nameField.addKeyUpHandler(handler);
-  }
+	ClickHandler h = new ClickHandler() {
+	        String m_id = id;
+		String m_name = name;
+		String m_category = category;
+
+		public void onClick(ClickEvent event) {
+		    petstore.this.id.setText(m_id);
+		    petstore.this.name.setText(m_name);
+		    petstore.this.category.setText(m_category);
+		}
+	    };
+	    
+	int row = table.getRowCount();
+	Label l1 = new Label(id);
+	Label l2 = new Label(name);
+	l1.addClickHandler(h);
+	l2.addClickHandler(h);
+	table.setWidget(row, 0, l1);
+	table.setWidget(row, 1, l2);
+    }
+    
+    public void onModuleLoad() {
+	Scheduler.get().scheduleFixedPeriod(this, 1000);
+	
+	// Sample pet data.
+	table.addStyleName("table");
+	addPet("123", "Spot", "available");
+	addPet("321", "Duff", "taken");
+
+	header.addStyleName("header");
+
+	VerticalPanel right = new VerticalPanel();
+	FlowPanel f1 = new FlowPanel();
+	f1.add(new Label("ID: "));
+	f1.add(id);
+	FlowPanel f2 = new FlowPanel();
+	f2.add(new Label("Name: "));
+	f2.add(name);
+	FlowPanel f3 = new FlowPanel();
+	f3.add(new Label("Category: "));
+	f3.add(category);
+	right.add(f1);
+	right.add(f2);
+	right.add(f3);
+
+        HorizontalPanel middle = new HorizontalPanel();
+	middle.addStyleName("middle");
+	middle.add(table);
+	middle.add(right);
+
+	FlowPanel footer = new FlowPanel();
+	footer.addStyleName("footer");
+	footer.add(new Label("Kontakt: "));
+	footer.add(new Anchor("office@petstore.pcz.pl",
+			      "mailto: office@petstore.pcz.pl"));
+
+	VerticalPanel vp = new VerticalPanel();
+	vp.addStyleName("outer");
+	vp.add(header);
+	vp.add(middle);
+	vp.add(footer);
+
+	RootPanel rp = RootPanel.get();
+	rp.add(vp);
+    }
 }
