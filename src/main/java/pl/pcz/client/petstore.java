@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+import io.swagger.api.PetApi;
+
 public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 
     private Label header = new Label();
@@ -49,7 +51,7 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 	table.setWidget(row, 0, l1);
 	table.setWidget(row, 1, l2);
     }
-    
+
     public void onModuleLoad() {
 	Scheduler.get().scheduleFixedPeriod(this, 1000);
 	

@@ -20,9 +20,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.jaxrs.PATCH;
 
+import org.fusesource.restygwt.client.RestService;
+
 @Path("/")
 @Api(value = "/", description = "")
-public interface PetApi  {
+public interface PetApi extends RestService {
 
     @POST
     @Path("/pet")
