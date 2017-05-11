@@ -5,12 +5,6 @@
          version="2.5"
          xmlns="http://java.sun.com/xml/ns/javaee">
 
-  <!-- Servlets -->
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/petstore/greet</url-pattern>
-  </servlet-mapping>
-  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>petstore.html</welcome-file>
