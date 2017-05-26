@@ -12,8 +12,6 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import io.swagger.api.PetApi;
-
 public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 
     private Label header = new Label();
