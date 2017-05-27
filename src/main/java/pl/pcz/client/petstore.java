@@ -124,10 +124,10 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 	vp.add(footer);
 
         WebAPI service = GWT.create(WebAPI.class);
-        service.getPet(1, new MethodCallback<String>() {
+        service.getPet(1, new MethodCallback<Pet>() {
     
-                public void onSuccess(Method method, String response) {
-                    footer.add(new Label("onSuccess"));
+                public void onSuccess(Method method, Pet pet) {
+                    footer.add(new Label(pet.name));
                 }
     
                 public void onFailure(Method method, Throwable exception) {

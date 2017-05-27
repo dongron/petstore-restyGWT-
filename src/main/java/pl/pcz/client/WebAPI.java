@@ -11,5 +11,5 @@ import org.fusesource.restygwt.client.RestService;
 public interface WebAPI extends RestService {
     @GET
     @Path("http://petstore.swagger.io/v2/pet/{id}")
-    public void getPet(@PathParam("id") int id, MethodCallback<String> m);
+    public void getPet(@PathParam("id") int id, MethodCallback<Pet> m);
 }
