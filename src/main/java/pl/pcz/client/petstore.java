@@ -31,7 +31,7 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
     private Label id = new Label("123");
     private Label name = new Label("Spot");
     private Label category = new Label("reserved");
-    private FlowPanel footer = new FlowPanel();
+    private VerticalPanel footer = new VerticalPanel();
     private int i = 0;
 
     public boolean execute() {
@@ -95,9 +95,7 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 	middle.add(table);
 	middle.add(right);
 
-	FlowPanel footer = new FlowPanel();
 	footer.addStyleName("footer");
-	footer.add(new Label("Kontakt: "));
 
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
                                                     URL.encode("http://petstore.swagger.io/v2/pet/1"));
