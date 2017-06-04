@@ -1,4 +1,4 @@
-package pl.pcz.shared;
+package pl.pcz.client;
 
 public class Pet {
     public int id;

@@ -1,7 +1,5 @@
 package pl.pcz.client;
 
-import pl.pcz.shared.Pet;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
