@@ -25,6 +25,7 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Defaults;
 
 import pl.pcz.shared.*;
+import org.fusesource.restygwt.client.*;
     
 public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 
@@ -44,60 +45,60 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
     
     private void addPet(final String id, final String name, final String category) {
 
-	ClickHandler h = new ClickHandler() {
-	        String m_id = id;
-		String m_name = name;
-		String m_category = category;
+		ClickHandler h = new ClickHandler() {
+		        String m_id = id;
+			String m_name = name;
+			String m_category = category;
 
-		public void onClick(ClickEvent event) {
-		    petstore.this.id.setText(m_id);
-		    petstore.this.name.setText(m_name);
-		    petstore.this.category.setText(m_category);
-		}
+			public void onClick(ClickEvent event) {
+			    petstore.this.id.setText(m_id);
+			    petstore.this.name.setText(m_name);
+			    petstore.this.category.setText(m_category);
+			}
 	    };
-	    
-	int row = table.getRowCount();
-	Label l1 = new Label(id);
-	Label l2 = new Label(name);
-	l1.addClickHandler(h);
-	l2.addClickHandler(h);
-	table.setWidget(row, 0, l1);
-	table.setWidget(row, 1, l2);
+		    
+		int row = table.getRowCount();
+		Label l1 = new Label(id);
+		Label l2 = new Label(name);
+		l1.addClickHandler(h);
+		l2.addClickHandler(h);
+		table.setWidget(row, 0, l1);
+		table.setWidget(row, 1, l2);
     }
 
     public void onModuleLoad() {
 
         Defaults.setAddXHttpMethodOverrideHeader(false);
             
-	Scheduler.get().scheduleFixedPeriod(this, 1000);
-	
-	// Sample pet data.
-	table.addStyleName("table");
-	addPet("123", "Spot", "available");
-	addPet("321", "Duff", "taken");
+		Scheduler.get().scheduleFixedPeriod(this, 1000);
+		
+		// Sample pet data.
+		table.addStyleName("table");
+		addPet("123", "Spot", "available");
+		addPet("321", "Duff", "taken");
 
-	header.addStyleName("header");
+		header.addStyleName("header");
 
-	VerticalPanel right = new VerticalPanel();
-	FlowPanel f1 = new FlowPanel();
-	f1.add(new Label("ID: "));
-	f1.add(id);
-	FlowPanel f2 = new FlowPanel();
-	f2.add(new Label("Name: "));
-	f2.add(name);
-	FlowPanel f3 = new FlowPanel();
-	f3.add(new Label("Category: "));
-	f3.add(category);
-	right.add(f1);
-	right.add(f2);
-	right.add(f3);
+		VerticalPanel right = new VerticalPanel();
+		FlowPanel f1 = new FlowPanel();
+		f1.add(new Label("ID: "));
+		f1.add(id);
+		FlowPanel f2 = new FlowPanel();
+		f2.add(new Label("Name: "));
+		f2.add(name);
+		FlowPanel f3 = new FlowPanel();
+		f3.add(new Label("Category: "));
+		f3.add(category);
+		right.add(f1);
+		right.add(f2);
+		right.add(f3);
 
         HorizontalPanel middle = new HorizontalPanel();
-	middle.addStyleName("middle");
-	middle.add(table);
-	middle.add(right);
+		middle.addStyleName("middle");
+		middle.add(table);
+		middle.add(right);
 
-	footer.addStyleName("footer");
+		footer.addStyleName("footer");
 
         RequestBuilder builder = new RequestBuilder(RequestBuilder.GET,
                                                     URL.encode("http://petstore.swagger.io/v2/pet/1"));
@@ -117,11 +118,11 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
             footer.add(new Label("Exception caught"));
         }
         
-	VerticalPanel vp = new VerticalPanel();
-	vp.addStyleName("outer");
-	vp.add(header);
-	vp.add(middle);
-	vp.add(footer);
+		VerticalPanel vp = new VerticalPanel();
+		vp.addStyleName("outer");
+		vp.add(header);
+		vp.add(middle);
+		vp.add(footer);
 
         WebAPI service = GWT.create(WebAPI.class);
         service.getPet(1, new MethodCallback<Pet>() {
@@ -135,9 +136,13 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
                 }
             });
 
-	RootPanel rp = RootPanel.get();
-	rp.add(vp);
-    }
+		RootPanel rp = RootPanel.get();
+		rp.add(vp);
+	    }
 
+	    REST.withCallback(new MethodCallback<Pet> () {
+	    	//
+
+	    }).call(service).getPet(1);
 
 }

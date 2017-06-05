@@ -9,8 +9,11 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.DirectRestService;
 
+import pl.pcz.shared.*;
+
+
 public interface WebAPI extends DirectRestService {
     @GET
     @Path("http://petstore.swagger.io/v2/pet/{id}")
-    public void getPet(@PathParam("id") int id, MethodCallback<Pet> m);
+    public Pet getPet(@PathParam("id") int id);
 }
