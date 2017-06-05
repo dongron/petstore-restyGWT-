@@ -23,6 +23,8 @@ import com.google.gwt.http.client.URL;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Defaults;
+
+import pl.pcz.shared.*;
     
 public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 
@@ -136,4 +138,6 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 	RootPanel rp = RootPanel.get();
 	rp.add(vp);
     }
+
+
 }
