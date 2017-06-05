@@ -23,9 +23,10 @@ import com.google.gwt.http.client.URL;
 import org.fusesource.restygwt.client.Method;
 import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.Defaults;
+import org.fusesource.restygwt.client.REST;
 
 import pl.pcz.shared.*;
-import org.fusesource.restygwt.client.*;
+
     
 public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 
@@ -125,24 +126,34 @@ public class petstore implements EntryPoint, Scheduler.RepeatingCommand {
 		vp.add(footer);
 
         WebAPI service = GWT.create(WebAPI.class);
-        service.getPet(1, new MethodCallback<Pet>() {
+        // service.getPet(1, new MethodCallback<Pet>() {
     
-                public void onSuccess(Method method, Pet pet) {
-                    footer.add(new Label(pet.name));
-                }
+        //         public void onSuccess(Method method, Pet pet) {
+        //             footer.add(new Label(pet.name));
+        //         }
     
-                public void onFailure(Method method, Throwable exception) {
-                    footer.add(new Label(exception.getMessage()));
-                }
-            });
+        //         public void onFailure(Method method, Throwable exception) {
+        //             footer.add(new Label(exception.getMessage()));
+        //         }
+        //     });
 
 		RootPanel rp = RootPanel.get();
 		rp.add(vp);
-	    }
 
-	    REST.withCallback(new MethodCallback<Pet> () {
-	    	//
+		 REST.withCallback(new MethodCallback<Pet> () {
+	    	@Override
+			public void onSuccess(Method method, Pet pet) {
+				footer.add(new Label(pet.name));
+			}
+
+			public void onFailure(Method method, Throwable exception) {
+				footer.add(new Label(exception.getMessage()));
+			}
 
 	    }).call(service).getPet(1);
+		 
+	    }
+
+	   
 
 }

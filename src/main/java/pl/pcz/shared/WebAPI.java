@@ -9,8 +9,6 @@ import org.fusesource.restygwt.client.MethodCallback;
 import org.fusesource.restygwt.client.RestService;
 import org.fusesource.restygwt.client.DirectRestService;
 
-import pl.pcz.shared.*;
-
 
 public interface WebAPI extends DirectRestService {
     @GET
